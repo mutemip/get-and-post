@@ -6,7 +6,7 @@ function submitFn(e){
     e.preventDefault()
     let animalObj = {
         anime_name:e.target.anime_name.value,
-        anime_img:e.target.anime_img
+        anime_img:e.target.anime_image.value
     }
     returnOneAnimal(animalObj)
     postAnimal(animalObj)
@@ -19,7 +19,7 @@ function returnOneAnimal(animal){
     let tempView = document.createElement('li')
     tempView.innerHTML = `
         <div class="">
-            <h4>${animal.anime_name}</h4>
+            <h1>${animal.anime_name}</h1>
         </div>
         <img src="${animal.anime_img}">
     `
@@ -29,7 +29,7 @@ function returnOneAnimal(animal){
 }
 
 //Fetch requests
-//Fetch all animal respourse
+//Fetch all animal respourse (GET)
 function fetchAllAnimalData(){
     fetch('http://localhost:3000/aData')
     //use results from the promise
@@ -38,14 +38,17 @@ function fetchAllAnimalData(){
     .then(aData => aData.forEach(animal => returnOneAnimal(animal)))
 }
 
-
+//POST
 function postAnimal(animalObj){
+    //alert(JSON.stringify(animalObj))
     fetch('http://localhost:3000/aData', {
         method: 'POST',
         headers: {
+            'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
         body:JSON.stringify(animalObj)
+
     })
     .then(result => result.json())
     .then(animal => console.log(animal))
